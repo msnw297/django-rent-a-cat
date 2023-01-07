@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Static Example</title>
+
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+    <!-- Font Awesome -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <!-- Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+
+    <!-- Tempus Dominus Bootstrap 4 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+
+  </head>
+
+  <main>
+
+
+
+    <div class="container wow fadeIn">
+      <h2 class="my-5 h2 text-center text-muted">Checkout form</h2>
+      <div class="row">
+        <div class="col-md-8 mb-4">
+          <div class="card">
+          <form method="get" class="card-body">
+              {% csrf_token %}
+              <h4 class="text-muted">Time Period</h4>
+              &nbsp;
+              <div class="input-group date" style="width: 500px">
+                    <label for="from_date" style="margin-top: auto"> From: &nbsp;</label>
+                      <input id="from_date"
+                             type="datetime-local"
+                             name="from_date"
+                             class="form-control datetimepicker-input"
+                             min="{{ from_min_date }}"
+                             max="{{ from_max_date }}"
+                             value="{{ from_date_str }}"
+                             onchange="this.form.submit();"
+                             />
+              </div>
+              &nbsp;
+              <div class="input-group date" style="width: 500px">
+                    <label for="to_date" style="margin-top: auto"> To: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                      <input id="to_date"
+                             type="datetime-local"
+                             name="to_date"
+                             class="form-control datetimepicker-input"
+                             min="{{ to_min_date }}"
+                             max="{{ to_max_date }}"
+                             value="{{ to_date_str }}"
+                             onchange="this.form.submit();"
+                             />
+              </div>
+          
+
+              <!--<div>
+              <button style="float: right" class="btn btn-secondary btn-md waves-effect m-0" type="submit">SUBMIT</button>
+              </div>-->
+              &nbsp;&nbsp;
+          </form>
+          
+              <!--button class="btn btn-secondary btn-lg btn-block">Order now</button-->
+          </div>
+          {% include "payment_form.html" %}
+            <script>
+              $(function () {
+                $("#datetimepicker1").datetimepicker();
+              });
+            </script>
+          {% comment %} protected spacing {% endcomment %}
+      &nbsp;&nbsp;
+
+        </div>
+
+        <div class="col-md-4 mb-4">
+          {% include "order_snippet.html" %}
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+{% endblock content %}
+
+{% block extra_scripts %}
+<script>
+var hideable_shipping_form = $('.hideable_shipping_form');
+var hideable_billing_form = $('.hideable_billing_form');
+
+var use_default_shipping = document.querySelector("input[name=use_default_shipping]");
+var use_default_billing = document.querySelector("input[name=use_default_billing]");
+
+use_default_shipping.addEventListener('change', function() {
+  if (this.checked) {
+    hideable_shipping_form.hide();
+  } else {
+    hideable_shipping_form.show();
+  }
+})
+
+use_default_billing.addEventListener('change', function() {
+  if (this.checked) {
+    hideable_billing_form.hide();
+  } else {
+    hideable_billing_form.show();
+  }
+})
+
+</script>
+{% endblock extra_scripts %}
